@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5</TargetFramework>
+    <DebugType>portable</DebugType>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ReallyUsefullApp.DataAccess.Core\ReallyUsefullApp.DataAccess.Core.csproj" />
+    <ProjectReference Include="..\ReallyUsefullApp.ServiceInterface\ReallyUsefullApp.ServiceInterface.csproj" />
+    <ProjectReference Include="..\ReallyUsefullApp.ServiceModel\ReallyUsefullApp.ServiceModel.csproj" />
+    <PackageReference Include="Moq" Version="4.16.1" />
+
+    <PackageReference Include="NUnit" Version="3.12.*" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.*" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.*" />
+    <PackageReference Include="ServiceStack" Version="5.*" />
+    <PackageReference Include="ServiceStack.Kestrel" Version="5.*" />
+  </ItemGroup>
+
+</Project>
