@@ -1,10 +1,15 @@
 ﻿using ReallyUsefullApp.ServiceModel.Types;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ReallyUsefullApp.DataAccess.Core
 {
     public interface IProductsRepository
     {
-        Task<int> AddProductAsync(Product product);
+        Task<IEnumerable<Product>> GetAllAsync();
+        Task<IEnumerable<Product>> GetByIdsAsync(int[] ids);
+        Task AddAsync(Product product);
+        Task UpdateAsync(Product product);
+        Task DeleteAsync(int id);
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Funq;
 using ServiceStack;
 using ReallyUsefullApp.ServiceInterface;
+using ServiceStack.Validation;
 
 namespace ReallyUsefullApp
 {
@@ -38,6 +39,9 @@ namespace ReallyUsefullApp
         // Configure your AppHost with the necessary configuration and dependencies your App needs
         public override void Configure(Container container)
         {
+            Plugins.Add(new ValidationFeature());
+            container.RegisterValidators(typeof(ProductsServices).Assembly);
+
             SetConfig(new HostConfig
             {
                 DebugMode = AppSettings.Get(nameof(HostConfig.DebugMode), false)
