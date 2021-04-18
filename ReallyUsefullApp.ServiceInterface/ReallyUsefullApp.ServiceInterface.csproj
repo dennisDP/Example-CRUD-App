@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ServiceStack" Version="5.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess.Core\ReallyUsefullApp.DataAccess.Core.csproj" />
+    <ProjectReference Include="..\ReallyUsefullApp.ServiceModel\ReallyUsefullApp.ServiceModel.csproj" />
+  </ItemGroup>
+
+</Project>
