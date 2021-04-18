@@ -6,6 +6,8 @@ using Funq;
 using ServiceStack;
 using ReallyUsefullApp.ServiceInterface;
 using ServiceStack.Validation;
+using ReallyUsefullApp.DataAccess.MongoDB;
+using ReallyUsefullApp.DataAccess.Core;
 
 namespace ReallyUsefullApp
 {
@@ -40,6 +42,9 @@ namespace ReallyUsefullApp
         public override void Configure(Container container)
         {
             Plugins.Add(new ValidationFeature());
+
+            container.RegisterAutoWiredAs<ProductsRepository, IProductsRepository>();
+
             container.RegisterValidators(typeof(ProductsServices).Assembly);
 
             SetConfig(new HostConfig

@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReallyUsefullApp.Tests", "R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReallyUsefullApp.DataAccess.Core", "ReallyUsefullApp.DataAccess.Core\ReallyUsefullApp.DataAccess.Core.csproj", "{6CC63824-3461-43FA-8D8F-3219BA068A23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReallyUsefullApp.DataAccess.MongoDB", "ReallyUsefullApp.DataAccess.MongoDB\ReallyUsefullApp.DataAccess.MongoDB.csproj", "{86AF0EC7-1FBE-4678-BBBB-48CE88AA058B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{6CC63824-3461-43FA-8D8F-3219BA068A23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CC63824-3461-43FA-8D8F-3219BA068A23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CC63824-3461-43FA-8D8F-3219BA068A23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86AF0EC7-1FBE-4678-BBBB-48CE88AA058B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86AF0EC7-1FBE-4678-BBBB-48CE88AA058B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86AF0EC7-1FBE-4678-BBBB-48CE88AA058B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86AF0EC7-1FBE-4678-BBBB-48CE88AA058B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

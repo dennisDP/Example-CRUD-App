@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5</TargetFramework>
@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ReallyUsefullApp.DataAccess.MongoDB\ReallyUsefullApp.DataAccess.MongoDB.csproj" />
     <ProjectReference Include="..\ReallyUsefullApp.ServiceInterface\ReallyUsefullApp.ServiceInterface.csproj" />
     <ProjectReference Include="..\ReallyUsefullApp.ServiceModel\ReallyUsefullApp.ServiceModel.csproj" />
   </ItemGroup>
