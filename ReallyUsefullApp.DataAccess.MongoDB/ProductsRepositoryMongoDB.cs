@@ -47,14 +47,15 @@ namespace ReallyUsefullApp.DataAccess.MongoDB
             await _collection.InsertOneAsync(product);
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var filter = Builders<Product>.Filter.Eq(p => p.CatalogNumber, id);
+            await _collection.DeleteOneAsync(filter);
         }
 
-        public Task<IEnumerable<Product>> GetAllAsync()
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return (await _collection.FindAsync(new BsonDocument())).ToList();
         }
 
         public async Task<IEnumerable<Product>> GetByIdsAsync(int[] ids)
@@ -63,9 +64,10 @@ namespace ReallyUsefullApp.DataAccess.MongoDB
             return (await _collection.FindAsync(filter)).ToList();
         }
 
-        public Task UpdateAsync(Product product)
+        public async Task UpdateAsync(Product product)
         {
-            throw new NotImplementedException();
+            var filter = Builders<Product>.Filter.Eq(p => p.CatalogNumber, product.CatalogNumber);
+            await _collection.ReplaceOneAsync(filter, product);
         }
 
         protected virtual void Dispose(bool disposing)
