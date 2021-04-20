@@ -4,6 +4,17 @@ using System.Collections.Generic;
 
 namespace ReallyUsefullApp.ServiceModel
 {
+    [Route("/products/stats", "GET")]
+    public class GetProductsStatistics : IReturn<GetProductsStatisticsResponse>
+    {
+    }
+
+    public class GetProductsStatisticsResponse
+    {
+        public ProductsStatistics ProductsStatistics { get; set; }
+        public ResponseStatus ResponseStatus { get; set; }
+    }
+
     [Route("/products/", "GET")]
     [Route("/products/{Ids}", "GET")]
     public class GetProducts : IReturn<GetProductsResponse>

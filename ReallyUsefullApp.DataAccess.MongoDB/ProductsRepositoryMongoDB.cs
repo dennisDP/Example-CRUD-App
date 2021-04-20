@@ -70,6 +70,54 @@ namespace ReallyUsefullApp.DataAccess.MongoDB
             await _collection.ReplaceOneAsync(filter, product);
         }
 
+        public async Task<ProductsStatistics> GetStatistics()
+        {
+            var pipeline = new BsonDocument[]
+            {
+                new BsonDocument
+                {
+                    {
+                        "$group",
+                        new BsonDocument
+                        {
+                            { "_id", BsonNull.Value },
+                            { 
+                                "averageProductPrice", 
+                                new BsonDocument
+                                {
+                                    {"$avg","$Price" }
+                                } 
+                            },
+                            {
+                                "numberOfAllProducts",
+                                new BsonDocument
+                                {
+                                    {"$sum","$Quantity" }
+                                }
+                            },
+                            {
+                                "numberOfDifferentProducts",
+                                new BsonDocument
+                                {
+                                    {"$sum", 1}
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            var resultBson = (await _collection.AggregateAsync<BsonDocument>(pipeline)).Single();
+            var result = Utilities.ToDynamic(resultBson);
+
+            return new ProductsStatistics 
+            {
+                NumberOfAllProducts = result.numberOfAllProducts,
+                NumberOfDifferentProducts = result.numberOfDifferentProducts,
+                AverageProductPrice = result.averageProductPrice
+            }; 
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)

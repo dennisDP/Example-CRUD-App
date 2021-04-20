@@ -13,6 +13,7 @@ using System;
 
 namespace ReallyUsefullApp.Tests
 {
+    [TestFixture]
     public class IntegrationTests
     {
         const string BaseUri = "http://localhost:2000/";
@@ -43,7 +44,7 @@ namespace ReallyUsefullApp.Tests
         public IServiceClient CreateClient() => new JsonServiceClient(BaseUri);
         
         [Test]
-        public void PostAsync_ThrowsWebServiceException_WhenCatalogNumberIsNotProvided()
+        public void CreateProduct_ThrowsWebServiceException_WhenCatalogNumberIsNotProvided()
         {
             var createProduct = new CreateProduct
             {
@@ -60,7 +61,7 @@ namespace ReallyUsefullApp.Tests
         }
 
         [Test]
-        public void PutAsync_ThrowsWebServiceException_WhenCatalogNumberIsNotProvided()
+        public void UpdateProduct_ThrowsWebServiceException_WhenCatalogNumberIsNotProvided()
         {
             var updateProduct = new UpdateProduct
             {
@@ -77,7 +78,7 @@ namespace ReallyUsefullApp.Tests
         }
 
         [Test]
-        public void DeleteAsync_ThrowsWebServiceException_WhenCatalogNumberIsNotProvided()
+        public void DeleteProduct_ThrowsWebServiceException_WhenCatalogNumberIsNotProvided()
         {
             var deleteProduct = new DeleteProduct();
 
@@ -87,10 +88,10 @@ namespace ReallyUsefullApp.Tests
         }
         
         [Test]
-        public void CanPostPutGetDelete_WhenRequestsAreValid()
+        public void CanDoAllAvailableActionsInMeaningfulSequence_WhenRequestsAreValid()
         {
             int[] allProductsIds = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            PostAsync_DoesNotThrow_WhenCatalogNumberIsProvided(allProductsIds);
+            CreateProduct_DoesNotThrow_WhenCatalogNumberIsProvided(allProductsIds);
 
             Func<Product, bool> productValuesMatchId = product =>
             {
@@ -103,11 +104,11 @@ namespace ReallyUsefullApp.Tests
                 product.Category == $"Category{product.CatalogNumber}" &&
                 product.Vendor == $"Vendor{product.CatalogNumber}");
             };
-            GetAsync_ReturnsResponseContainingSpecifiedObjects_WhenIdsAreProvided(allProductsIds.Take(5).ToArray(), 5, productValuesMatchId);
-            GetAsync_ReturnsResponseContainingAllObjects_WhenIdsAreNotProvided(allProductsIds.Length, productValuesMatchId);
+            GetProducts_ReturnsResponseContainingSpecifiedObjects_WhenIdsAreProvided(allProductsIds.Take(5).ToArray(), 5, productValuesMatchId);
+            GetProducts_ReturnsResponseContainingAllObjects_WhenIdsAreNotProvided(allProductsIds.Length, productValuesMatchId);
 
 
-            PutAsync_DoesNotThrow_WhenCatalogNumberIsProvided(allProductsIds.First());
+            UpdateProducts_DoesNotThrow_WhenCatalogNumberIsProvided(allProductsIds.First());
 
             Func<Product, bool> productValuesMatchIdUpdated = product =>
             {
@@ -120,13 +121,22 @@ namespace ReallyUsefullApp.Tests
                 product.Category == $"Category{product.CatalogNumber}{product.CatalogNumber}" &&
                 product.Vendor == $"Vendor{product.CatalogNumber}{product.CatalogNumber}");
             };
-            GetAsync_ReturnsResponseContainingSpecifiedObjects_WhenIdsAreProvided(allProductsIds.Take(1).ToArray(), 1, productValuesMatchIdUpdated);
+            GetProducts_ReturnsResponseContainingSpecifiedObjects_WhenIdsAreProvided(allProductsIds.Take(1).ToArray(), 1, productValuesMatchIdUpdated);
 
-            DeleteAsync_DoesNotThrow_WhenCatalogNumberIsProvided(allProductsIds.First());
-            GetAsync_ReturnsResponseContainingAllObjects_WhenIdsAreNotProvided(allProductsIds.Length - 1, productValuesMatchId);
+            DeleteProduct_DoesNotThrow_WhenCatalogNumberIsProvided(allProductsIds.First());
+            GetProducts_ReturnsResponseContainingAllObjects_WhenIdsAreNotProvided(allProductsIds.Length - 1, productValuesMatchId);
+
+            var productsIdsLeft = allProductsIds.TakeLast(9);
+            var expectedProductsStatistics = new ProductsStatistics
+            {
+                NumberOfAllProducts = productsIdsLeft.Aggregate((x, y) => x + y),
+                NumberOfDifferentProducts = 9,
+                AverageProductPrice = productsIdsLeft.Average()
+            };
+            GetProductsStatistics_ReturnsResponseContainingValidStatistics(expectedProductsStatistics);
         }
 
-        public void PostAsync_DoesNotThrow_WhenCatalogNumberIsProvided(int[] allProductsIds)
+        public void CreateProduct_DoesNotThrow_WhenCatalogNumberIsProvided(int[] allProductsIds)
         {
             //Arrange
             var client = CreateClient();
@@ -150,7 +160,7 @@ namespace ReallyUsefullApp.Tests
             Assert.DoesNotThrowAsync(async () => await createProductsTasks);
         }
 
-        public void GetAsync_ReturnsResponseContainingSpecifiedObjects_WhenIdsAreProvided(int[] productsIds, int expectedNumberOfProducts, Func<Product, bool> match)
+        public void GetProducts_ReturnsResponseContainingSpecifiedObjects_WhenIdsAreProvided(int[] productsIds, int expectedNumberOfProducts, Func<Product, bool> match)
         {
             //Arrange
             var client = CreateClient();
@@ -167,7 +177,7 @@ namespace ReallyUsefullApp.Tests
             Assert.That(getProductsResponse.Products.All(p => match(p)));
         }
 
-        public void GetAsync_ReturnsResponseContainingAllObjects_WhenIdsAreNotProvided(int expectedNumberOfProducts, Func<Product, bool> match)
+        public void GetProducts_ReturnsResponseContainingAllObjects_WhenIdsAreNotProvided(int expectedNumberOfProducts, Func<Product, bool> match)
         {
             //Arrange
             var client = CreateClient();
@@ -181,7 +191,7 @@ namespace ReallyUsefullApp.Tests
             Assert.That(getProductsResponse.Products.All( p => match(p)));
         }
 
-        public void PutAsync_DoesNotThrow_WhenCatalogNumberIsProvided(int productId)
+        public void UpdateProducts_DoesNotThrow_WhenCatalogNumberIsProvided(int productId)
         {
             //Arrange
             var client = CreateClient();
@@ -202,7 +212,7 @@ namespace ReallyUsefullApp.Tests
             Assert.DoesNotThrowAsync(async () => await updateProductTask);
         }
 
-        public void DeleteAsync_DoesNotThrow_WhenCatalogNumberIsProvided(int productId)
+        public void DeleteProduct_DoesNotThrow_WhenCatalogNumberIsProvided(int productId)
         {
             //Arrange
             var client = CreateClient();
@@ -216,6 +226,20 @@ namespace ReallyUsefullApp.Tests
 
             //Assert
             Assert.DoesNotThrowAsync(async () => await deleteProductTask);
+        }
+
+        public void GetProductsStatistics_ReturnsResponseContainingValidStatistics(ProductsStatistics expectedProductsStatistics)
+        {
+            //Arrange
+            var client = CreateClient();
+            var getProductsStatistic = new GetProductsStatistics();
+
+            //Act
+            var getProductsStatisticsResponse = client.Get(getProductsStatistic);
+
+            //Assert
+            var productsStatistics = getProductsStatisticsResponse.ProductsStatistics;
+            Assert.AreEqual(expectedProductsStatistics.NumberOfAllProducts, productsStatistics.NumberOfAllProducts);
         }
     }
 }

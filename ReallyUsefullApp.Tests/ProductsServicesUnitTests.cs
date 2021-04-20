@@ -10,10 +10,11 @@ using System.Collections.Generic;
 
 namespace ReallyUsefullApp.Tests
 {
+    [TestFixture]
     public class ProductsServicesUnitTests
     {
         [Test]
-        public void GetAsync_ReturnsCorrespondingProducts_WhenIdsAreProvided()
+        public void GetProducts_ReturnsCorrespondingProducts_WhenIdsAreProvided()
         {
             //Arrange
             var products = new List<Product>
@@ -49,7 +50,7 @@ namespace ReallyUsefullApp.Tests
         }
 
         [Test]
-        public void GetAsync_ReturnsAllProducts_WhenIdsAreNotProvided()
+        public void GetProducts_ReturnsAllProducts_WhenIdsAreNotProvided()
         {
             //Arrange
             var products = new List<Product>
@@ -82,7 +83,7 @@ namespace ReallyUsefullApp.Tests
         }
 
         [Test]
-        public void PostAsync_DoesNotThrow_WhenProductDoesNotAlreadyExist()
+        public void CreateProduct_DoesNotThrow_WhenProductDoesNotAlreadyExist()
         {
             //Arrange
             var productsRepositoryMock = new Mock<IProductsRepository>();
@@ -113,7 +114,7 @@ namespace ReallyUsefullApp.Tests
         }
 
         [Test]
-        public void PostAsync_ThrowsHttpError_WhenProductAlreadyExists()
+        public void CreateProduct_ThrowsHttpError_WhenProductAlreadyExists()
         {
             //Arrange
             var productsRepositoryMock = new Mock<IProductsRepository>();
@@ -144,7 +145,7 @@ namespace ReallyUsefullApp.Tests
         }
 
         [Test]
-        public void PutAsync_DoesNotThrow_WhenProductExists()
+        public void UpdateProduct_DoesNotThrow_WhenProductExists()
         {
             //Arrange
             var productsRepositoryMock = new Mock<IProductsRepository>();
@@ -167,7 +168,7 @@ namespace ReallyUsefullApp.Tests
         }
 
         [Test]
-        public void PutAsync_ThrowsHttpError_WhenProductDoesNotExist()
+        public void UpdateProduct_ThrowsHttpError_WhenProductDoesNotExist()
         {
             //Arrange
             var productsRepositoryMock = new Mock<IProductsRepository>();
@@ -190,7 +191,7 @@ namespace ReallyUsefullApp.Tests
         }
 
         [Test]
-        public void DeleteAsync_DoesNotThrow_WhenProductExists()
+        public void DeleteProduct_DoesNotThrow_WhenProductExists()
         {
             //Arrange
             var productsRepositoryMock = new Mock<IProductsRepository>();
@@ -213,7 +214,7 @@ namespace ReallyUsefullApp.Tests
         }
 
         [Test]
-        public void DeleteAsync_ThrowsHttpError_WhenProductDoesNotExist()
+        public void DeleteProduct_ThrowsHttpError_WhenProductDoesNotExist()
         {
             //Arrange
             var productsRepositoryMock = new Mock<IProductsRepository>();

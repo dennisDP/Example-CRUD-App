@@ -42,6 +42,15 @@ namespace ReallyUsefullApp.ServiceInterface
             _productsRepository = productsRepository;
         }
 
+        public async Task<object> GetAsync(GetProductsStatistics request)
+        {
+            var statistics = await _productsRepository.GetStatistics();
+            return new GetProductsStatisticsResponse
+            {
+                ProductsStatistics = statistics
+            };
+        }
+
         public async Task<object> GetAsync(GetProducts request)
         {
             IEnumerable<Product> products;
