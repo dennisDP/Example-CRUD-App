@@ -44,7 +44,6 @@ namespace ReallyUsefullApp
             Plugins.Add(new ValidationFeature());
 
             container.RegisterAutoWiredAs<ProductsRepositoryMongoDB, IProductsRepository>();
-
             container.RegisterValidators(typeof(ProductsServices).Assembly);
 
             SetConfig(new HostConfig
