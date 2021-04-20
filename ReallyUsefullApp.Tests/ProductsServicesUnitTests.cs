@@ -15,6 +15,7 @@ namespace ReallyUsefullApp.Tests
         [Test]
         public void GetAsync_ReturnsCorrespondingProducts_WhenIdsAreProvided()
         {
+            //Arrange
             var products = new List<Product>
             {
                 new Product
@@ -37,8 +38,11 @@ namespace ReallyUsefullApp.Tests
             {
                 Ids = new int[] { 1, 2 }
             };
+
+            //Act
             var response = (GetProductsResponse)service.GetAsync(request).Result;
 
+            //Assert
             Assert.AreEqual(2, response.Products.Count);
             Assert.AreEqual(1, response.Products[0].CatalogNumber);
             Assert.AreEqual(2, response.Products[1].CatalogNumber);
@@ -47,6 +51,7 @@ namespace ReallyUsefullApp.Tests
         [Test]
         public void GetAsync_ReturnsAllProducts_WhenIdsAreNotProvided()
         {
+            //Arrange
             var products = new List<Product>
             {
                 new Product
@@ -66,8 +71,11 @@ namespace ReallyUsefullApp.Tests
             var service = new ProductsServices(productsRepositoryMock.Object);
 
             var request = new GetProducts();
+
+            //Act
             var response = (GetProductsResponse)service.GetAsync(request).Result;
 
+            //Assert
             Assert.AreEqual(2, response.Products.Count);
             Assert.AreEqual(1, response.Products[0].CatalogNumber);
             Assert.AreEqual(2, response.Products[1].CatalogNumber);
@@ -76,6 +84,7 @@ namespace ReallyUsefullApp.Tests
         [Test]
         public void PostAsync_DoesNotThrow_WhenProductDoesNotAlreadyExist()
         {
+            //Arrange
             var productsRepositoryMock = new Mock<IProductsRepository>();
 
             productsRepositoryMock
@@ -96,12 +105,17 @@ namespace ReallyUsefullApp.Tests
                 Vendor = "Nike"
             };
 
-            Assert.DoesNotThrowAsync(() => service.PostAsync(createProduct));
+            //Act
+            var createProductTask = service.PostAsync(createProduct);
+
+            //Assert
+            Assert.DoesNotThrowAsync(() => createProductTask);
         }
 
         [Test]
         public void PostAsync_ThrowsHttpError_WhenProductAlreadyExists()
         {
+            //Arrange
             var productsRepositoryMock = new Mock<IProductsRepository>();
 
             productsRepositoryMock
@@ -122,12 +136,17 @@ namespace ReallyUsefullApp.Tests
                 Vendor = "Nike"
             };
 
-            Assert.ThrowsAsync<HttpError>(() => service.PostAsync(createProduct));
+            //Act
+            var createProductTask = service.PostAsync(createProduct);
+
+            //Assert
+            Assert.ThrowsAsync<HttpError>(() => createProductTask);
         }
 
         [Test]
         public void PutAsync_DoesNotThrow_WhenProductExists()
         {
+            //Arrange
             var productsRepositoryMock = new Mock<IProductsRepository>();
 
             productsRepositoryMock
@@ -140,12 +159,17 @@ namespace ReallyUsefullApp.Tests
                 CatalogNumber = 1
             };
 
-            Assert.DoesNotThrowAsync(() => service.PutAsync(updateProduct));
+            //Act
+            var updateProductTask = service.PutAsync(updateProduct);
+
+            //Assert
+            Assert.DoesNotThrowAsync(() => updateProductTask);
         }
 
         [Test]
         public void PutAsync_ThrowsHttpError_WhenProductDoesNotExist()
         {
+            //Arrange
             var productsRepositoryMock = new Mock<IProductsRepository>();
 
             productsRepositoryMock
@@ -158,12 +182,17 @@ namespace ReallyUsefullApp.Tests
                 CatalogNumber = 1
             };
 
-            Assert.ThrowsAsync<HttpError>(() => service.PutAsync(updateProduct));
+            //Act
+            var updateProductTask = service.PutAsync(updateProduct);
+
+            //Assert
+            Assert.ThrowsAsync<HttpError>(() => updateProductTask);
         }
 
         [Test]
         public void DeleteAsync_DoesNotThrow_WhenProductExists()
         {
+            //Arrange
             var productsRepositoryMock = new Mock<IProductsRepository>();
 
             productsRepositoryMock
@@ -176,12 +205,17 @@ namespace ReallyUsefullApp.Tests
                 CatalogNumber = 1
             };
 
-            Assert.DoesNotThrowAsync(() => service.DeleteAsync(deleteProduct));
+            //Act
+            var deleteProductTask = service.DeleteAsync(deleteProduct);
+
+            //Assert
+            Assert.DoesNotThrowAsync(() => deleteProductTask);
         }
 
         [Test]
         public void DeleteAsync_ThrowsHttpError_WhenProductDoesNotExist()
         {
+            //Arrange
             var productsRepositoryMock = new Mock<IProductsRepository>();
 
             productsRepositoryMock
@@ -194,7 +228,11 @@ namespace ReallyUsefullApp.Tests
                 CatalogNumber = 1
             };
 
-            Assert.ThrowsAsync<HttpError>(() => service.DeleteAsync(deleteProduct));
+            //Act
+            var deleteProductTask = service.DeleteAsync(deleteProduct);
+
+            //Assert
+            Assert.ThrowsAsync<HttpError>(() => deleteProductTask);
         }
     }
 }
